@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Move — White Rabbit</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white: #FAFCFA;
+  --cream: #F3F6F1;
+  --warm-gray: #DFE3DC;
+  --text: #151515;
+  --text-soft: #636863;
+  --text-faint: #94998F;
+  --pink: #E84B8A;
+  --pink-light: #F472A8;
+  --pink-bg: #FDF0F5;
+  --green: #3D6928;
+  --green-light: #8CB76D;
+  --green-bg: #F0F6EE;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-snap-type: y mandatory; overflow-y: scroll; overflow-x: hidden; }
+body { font-family: 'Outfit', sans-serif; background: var(--text); color: var(--text); -webkit-font-smoothing: antialiased; }
+.serif { font-family: 'Instrument Serif', serif; }
+.mono { font-family: 'JetBrains Mono', monospace; }
+
+.slide {
+  min-height: 100vh; scroll-snap-align: start;
+  display: flex; flex-direction: column; justify-content: center;
+  position: relative; overflow: hidden; padding: 72px 100px;
+}
+.slide.demo-slide {
+  justify-content: flex-end;
+  padding: 60px 80px 80px;
+}
+@media (max-width: 1000px) { .slide { padding: 48px 36px; } }
+@media (max-width: 900px) { .slide.demo-slide { padding: 40px 28px 60px; } }
+
+/* Nav */
+.slide-nav { position: fixed; right: 32px; top: 50%; transform: translateY(-50%); z-index: 100; display: flex; flex-direction: column; gap: 8px; }
+.slide-nav a { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.18); display: block; transition: all 0.3s ease; }
+.slide-nav a.active { background: var(--pink); transform: scale(1.6); }
+
+.slide-counter { position: absolute; bottom: 36px; right: 100px; font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; }
+.overline { font-weight: 600; font-size: 0.82rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--pink); margin-bottom: 18px; display: block; }
+.divider { width: 44px; height: 1px; background: var(--pink); margin: 18px 0; opacity: 0.35; }
+
+/* Speaker notes */
+.speaker-note {
+  position: absolute; bottom: 28px; left: 100px; right: 180px;
+  font-size: 0.64rem; line-height: 1.55; font-style: italic;
+  border-left: 2px solid rgba(255,255,255,0.05); padding-left: 14px;
+  color: rgba(255,255,255,0.16);
+}
+.speaker-note strong { color: rgba(255,255,255,0.28); font-style: normal; }
+.speaker-note em { color: rgba(255,255,255,0.26); }
+@media (max-width: 1000px) { .speaker-note { left: 36px; right: 80px; } }
+
+/* Theme variants */
+.dark { background: var(--text); color: #fff; }
+.dark .slide-counter { color: rgba(255,255,255,0.1); }
+.light { background: var(--white); color: var(--text); }
+.light .slide-counter { color: var(--text-faint); }
+.light .speaker-note { color: rgba(0,0,0,0.14); border-color: rgba(0,0,0,0.06); }
+.light .speaker-note strong { color: rgba(0,0,0,0.28); }
+.cream { background: var(--cream); color: var(--text); }
+.cream .slide-counter { color: var(--text-faint); }
+.cream .speaker-note { color: rgba(0,0,0,0.14); border-color: rgba(0,0,0,0.06); }
+.cream .speaker-note strong { color: rgba(0,0,0,0.28); }
+
+/* Pink accent bar on dark slides */
+.dark::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--pink); }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+@keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(61,105,40,0.3); } 50% { box-shadow: 0 0 0 6px rgba(61,105,40,0); } }
+@keyframes typeIn { from { width: 0; } to { width: 100%; } }
+@keyframes popIn {
+  0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+  60% { opacity: 1; transform: translateY(-3px) scale(1.01); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ===== HERO TYPOGRAPHY ===== */
+.hero-text {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(4rem, 9vw, 7.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+.hero-text em { font-style: italic; color: var(--pink); }
+
+.big-statement {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(2.8rem, 5.5vw, 4.2rem);
+  line-height: 1.18;
+}
+.big-statement em { font-style: italic; color: var(--pink); }
+
+.scene-text {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(1.4rem, 2.8vw, 2rem);
+  line-height: 1.55;
+  font-style: italic;
+  color: rgba(255,255,255,0.5);
+  max-width: 680px;
+}
+.scene-text strong { color: rgba(255,255,255,0.85); font-weight: 400; font-style: normal; }
+
+/* ===== AGENT LIFECYCLE ===== */
+.agent-lifecycle {
+  display: flex; flex-direction: column; gap: 0; max-width: 580px; margin-top: 28px;
+}
+.lifecycle-step {
+  display: flex; gap: 18px; align-items: flex-start;
+  padding: 18px 0;
+  opacity: 0;
+  animation: fadeUp 0.5s ease forwards;
+  position: relative;
+}
+.lifecycle-step:nth-child(1) { animation-delay: 0.3s; }
+.lifecycle-step:nth-child(2) { animation-delay: 0.9s; }
+.lifecycle-step:nth-child(3) { animation-delay: 1.5s; }
+.lifecycle-step:nth-child(4) { animation-delay: 2.1s; }
+
+.lifecycle-connector {
+  position: absolute;
+  left: 17px; top: 54px; bottom: -18px;
+  width: 1px;
+  background: linear-gradient(to bottom, rgba(232,75,138,0.3), rgba(232,75,138,0.05));
+}
+.lifecycle-step:last-child .lifecycle-connector { display: none; }
+
+.lifecycle-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.78rem; flex-shrink: 0;
+  background: rgba(232,75,138,0.1);
+  border: 1px solid rgba(232,75,138,0.15);
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--pink);
+  font-weight: 600;
+  position: relative;
+  z-index: 2;
+}
+.lifecycle-body { flex: 1; }
+.lifecycle-label {
+  font-weight: 600; font-size: 0.72rem; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--pink); margin-bottom: 5px;
+}
+.lifecycle-text {
+  font-size: 0.88rem; color: rgba(255,255,255,0.5); line-height: 1.6;
+}
+.lifecycle-text strong { color: rgba(255,255,255,0.8); font-weight: 500; }
+.lifecycle-result {
+  margin-top: 7px; display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.52rem; letter-spacing: 0.06em;
+  color: var(--green); background: rgba(61,105,40,0.12);
+  padding: 3px 8px; border-radius: 4px;
+}
+.lifecycle-result::before { content: '> '; opacity: 0.5; }
+
+/* ===== AGENT FEED ===== */
+.agent-feed {
+  display: flex; flex-direction: column; gap: 10px;
+  max-width: 560px;
+}
+.agent-msg {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 14px 16px; border-radius: 12px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
+  opacity: 0;
+  animation: fadeUp 0.4s ease forwards;
+}
+.agent-msg:nth-child(1) { animation-delay: 0.3s; }
+.agent-msg:nth-child(2) { animation-delay: 0.7s; }
+.agent-msg:nth-child(3) { animation-delay: 1.1s; }
+.agent-msg:nth-child(4) { animation-delay: 1.5s; }
+.agent-msg:nth-child(5) { animation-delay: 1.9s; }
+.agent-msg:nth-child(6) { animation-delay: 2.3s; }
+.agent-msg:nth-child(7) { animation-delay: 2.7s; }
+
+.agent-avatar {
+  width: 32px; height: 32px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; flex-shrink: 0;
+}
+.agent-avatar.hospitality { background: rgba(232,75,138,0.15); }
+.agent-avatar.atmosphere { background: rgba(147,130,220,0.15); }
+.agent-avatar.ops { background: rgba(61,105,40,0.15); }
+.agent-avatar.comms { background: rgba(70,130,180,0.15); }
+.agent-avatar.community { background: rgba(220,160,60,0.15); }
+.agent-avatar.programming { background: rgba(180,70,100,0.15); }
+.agent-avatar.content { background: rgba(120,160,130,0.15); }
+.agent-avatar.orchestrator { background: rgba(232,75,138,0.2); }
+
+.agent-msg-body { flex: 1; }
+.agent-msg-header { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
+.agent-msg-name { font-size: 0.68rem; font-weight: 600; color: rgba(255,255,255,0.55); }
+.agent-msg-time { font-family: 'JetBrains Mono', monospace; font-size: 0.5rem; color: rgba(255,255,255,0.15); }
+.agent-msg-text { font-size: 0.76rem; color: rgba(255,255,255,0.4); line-height: 1.5; }
+.agent-msg-text strong { color: rgba(255,255,255,0.7); font-weight: 500; }
+.agent-msg-action {
+  margin-top: 6px; display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.52rem; letter-spacing: 0.06em;
+  color: var(--green); background: rgba(61,105,40,0.12);
+  padding: 3px 8px; border-radius: 4px;
+}
+.agent-msg-action::before { content: '> '; opacity: 0.5; }
+
+/* ===== BIG NUMBERS ===== */
+.number-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+  max-width: 800px; margin-top: 28px;
+}
+@media (max-width: 800px) { .number-grid { grid-template-columns: 1fr; } }
+.number-item { text-align: center; }
+.number-val {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(3.8rem, 7.5vw, 5.5rem);
+  color: var(--pink);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.number-label { font-size: 0.88rem; font-weight: 500; color: var(--text-soft); line-height: 1.4; }
+.number-context { font-size: 0.75rem; color: var(--text-faint); margin-top: 3px; font-style: italic; }
+
+/* ===== STORY BEATS ===== */
+.story-sequence { display: flex; flex-direction: column; gap: 6px; max-width: 780px; }
+.story-beat {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(1.5rem, 2.8vw, 2rem);
+  line-height: 1.45;
+  color: rgba(255,255,255,0.6);
+  padding: 4px 0;
+}
+.story-beat.accent { color: var(--pink); font-style: italic; margin-top: 8px; }
+.story-beat.punch { color: rgba(255,255,255,0.95); font-weight: 400; margin-top: 8px; }
+
+/* ===== FUTURE VISION CARDS ===== */
+.vision-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  max-width: 880px; margin-top: 28px;
+}
+@media (max-width: 800px) { .vision-grid { grid-template-columns: 1fr; } }
+.vision-card {
+  padding: 28px 30px; border-radius: 16px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  position: relative; overflow: hidden;
+}
+.vision-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--pink), rgba(232,75,138,0.2));
+}
+.vision-card .vc-when {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--pink); margin-bottom: 10px;
+}
+.vision-card .vc-text {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.25rem; line-height: 1.45;
+  color: rgba(255,255,255,0.55);
+  font-style: italic;
+}
+.vision-card .vc-text strong { color: rgba(255,255,255,0.85); font-style: normal; font-weight: 400; }
+
+/* ===== INVITATIONS ===== */
+.invite-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; max-width: 900px; margin-top: 28px; }
+@media (max-width: 800px) { .invite-cols { grid-template-columns: 1fr; } }
+.invite-card { padding: 32px 34px; border-radius: 16px; }
+.invite-card.subtle { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); }
+.invite-card.pink { background: rgba(232,75,138,0.12); border: 1px solid rgba(232,75,138,0.16); }
+.invite-card .inv-label {
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--pink); margin-bottom: 10px;
+}
+.invite-card h3 { font-family: 'Instrument Serif', serif; font-size: 1.7rem; color: #fff; margin-bottom: 12px; }
+.invite-card p { font-size: 0.95rem; color: rgba(255,255,255,0.4); line-height: 1.6; }
+.invite-card .inv-cta { margin-top: 16px; font-size: 0.95rem; font-weight: 600; color: var(--pink); }
+
+/* ===== LIVE INDICATOR ===== */
+.live-dot {
+  display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--green); margin-right: 6px; vertical-align: middle;
+  animation: pulse 2s ease infinite;
+}
+
+/* ===== SUBTLE GRID BG ===== */
+.grid-bg::after {
+  content: ''; position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+/* ===== COMPARISON VISUAL ===== */
+.shift-visual {
+  display: flex; gap: 48px; align-items: center; margin-top: 36px; max-width: 700px;
+}
+@media (max-width: 800px) { .shift-visual { flex-direction: column; gap: 24px; } }
+.shift-box {
+  flex: 1; padding: 28px 24px; border-radius: 14px; text-align: center;
+}
+.shift-box.old {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.shift-box.new {
+  background: rgba(232,75,138,0.08);
+  border: 1px solid rgba(232,75,138,0.15);
+}
+.shift-box .sb-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.5rem; letter-spacing: 0.15em; text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.shift-box.old .sb-label { color: rgba(255,255,255,0.2); }
+.shift-box.new .sb-label { color: var(--pink); }
+.shift-box .sb-icon { font-size: 2rem; margin-bottom: 10px; }
+.shift-box .sb-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.3rem; margin-bottom: 6px;
+}
+.shift-box.old .sb-title { color: rgba(255,255,255,0.4); }
+.shift-box.new .sb-title { color: #fff; }
+.shift-box .sb-desc {
+  font-size: 0.72rem; line-height: 1.5;
+}
+.shift-box.old .sb-desc { color: rgba(255,255,255,0.2); }
+.shift-box.new .sb-desc { color: rgba(255,255,255,0.45); }
+.shift-arrow {
+  font-size: 1.4rem; color: var(--pink); flex-shrink: 0;
+}
+@media (max-width: 800px) { .shift-arrow { transform: rotate(90deg); } }
+
+/* ===== BUILD ITEMS (generic progressive reveal) ===== */
+.build-item {
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  transition: none;
+  pointer-events: none;
+}
+.build-item.visible {
+  animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  pointer-events: auto;
+}
+
+/* ===== DEMO SLIDE STYLES — SCENE BACKDROPS ===== */
+.scene-backdrop {
+  position: absolute; inset: 0;
+}
+.scene-photo-placeholder {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0.06;
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(5rem, 14vw, 12rem);
+  font-style: italic;
+  color: #fff;
+  letter-spacing: -0.02em;
+  text-align: center;
+  line-height: 1;
+  padding: 40px;
+  user-select: none;
+}
+
+/* Atmospheric gradients */
+.scene-snow .scene-backdrop { background: linear-gradient(180deg, #2a3242 0%, #1e2230 40%, #161a24 100%); }
+.scene-snow .scene-backdrop::after { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 30% 20%, rgba(200,210,230,0.08) 0%, transparent 60%); }
+.scene-kitchen .scene-backdrop { background: linear-gradient(180deg, #1e2a1a 0%, #182218 40%, #121a12 100%); }
+.scene-kitchen .scene-backdrop::after { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 60% 40%, rgba(61,105,40,0.06) 0%, transparent 50%); }
+.scene-meeting .scene-backdrop { background: linear-gradient(180deg, #1c2822 0%, #162018 40%, #121a14 100%); }
+.scene-meeting .scene-backdrop::after { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 40% 30%, rgba(61,105,40,0.07) 0%, transparent 50%); }
+.scene-night .scene-backdrop { background: linear-gradient(180deg, #1a1626 0%, #14101e 40%, #0e0c16 100%); }
+.scene-night .scene-backdrop::after { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 50% 50%, rgba(232,75,138,0.05) 0%, transparent 50%); }
+.scene-reveal .scene-backdrop { background: linear-gradient(180deg, #182418 0%, #141e14 40%, #101810 100%); }
+.scene-reveal .scene-backdrop::after { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 50% 60%, rgba(61,105,40,0.06) 0%, transparent 50%); }
+
+/* Scene label */
+.scene-label {
+  position: absolute; top: 44px; left: 80px; z-index: 10;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+}
+@media (max-width: 900px) { .scene-label { left: 28px; top: 28px; } }
+
+/* Stage pips */
+.stage-tag {
+  position: absolute; top: 44px; right: 80px; z-index: 10;
+  display: flex; align-items: center; gap: 10px;
+}
+@media (max-width: 900px) { .stage-tag { right: 28px; top: 28px; } }
+.stage-pip { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.08); }
+.stage-pip.active { background: var(--pink); }
+.stage-pip.done { background: rgba(232,75,138,0.35); }
+
+/* Stage title */
+.stage-title {
+  position: relative; z-index: 10;
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(2.6rem, 5.5vw, 4.2rem);
+  color: #fff;
+  line-height: 1.15;
+  margin-bottom: 36px;
+}
+.stage-title em { font-style: italic; color: var(--pink); }
+
+/* Click hint */
+.click-hint {
+  position: absolute; bottom: 32px; right: 80px; z-index: 10;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(255,255,255,0.25);
+  transition: opacity 0.3s ease;
+}
+@media (max-width: 900px) { .click-hint { right: 28px; bottom: 28px; } }
+
+/* ===== NOTIFICATION BUBBLES — BIG ===== */
+.notif-feed {
+  position: relative; z-index: 10;
+  display: flex; flex-direction: column; gap: 12px;
+  max-width: 640px;
+}
+
+.notif {
+  display: flex; gap: 16px; align-items: flex-start;
+  padding: 20px 24px;
+  border-radius: 16px;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.12);
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  transition: none;
+  pointer-events: none;
+}
+.notif.visible {
+  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  pointer-events: auto;
+}
+
+.notif-icon {
+  width: 40px; height: 40px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; flex-shrink: 0;
+  background: rgba(255,255,255,0.05);
+}
+.notif-icon.ai { background: rgba(232,75,138,0.15); }
+.notif-icon.human { background: rgba(255,255,255,0.1); }
+.notif-icon.outcome { background: rgba(140,183,109,0.2); }
+.notif-icon.fail { background: rgba(220,60,60,0.18); }
+
+.notif-body { flex: 1; min-width: 0; }
+.notif-text {
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.45;
+}
+.notif-text strong { color: #fff; font-weight: 600; }
+.notif-text .highlight { color: var(--pink-light); font-weight: 600; }
+
+.notif-sub {
+  margin-top: 5px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.4);
+}
+.notif-sub.green { color: var(--green-light); }
+
+/* Time break */
+.time-break {
+  padding: 10px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(10px);
+}
+.time-break.visible {
+  animation: popIn 0.3s ease forwards;
+}
+
+.swap-notice {
+  position: absolute; top: 44px; left: 50%; transform: translateX(-50%);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  color: rgba(255,255,255,0.15);
+  letter-spacing: 0.06em;
+}
+
+/* Role gallery grid */
+.role-gallery {
+  position: relative; z-index: 10;
+  display: flex; flex-wrap: wrap; gap: 14px;
+  max-width: 820px;
+}
+
+.role-btn.notif {
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 22px 28px;
+  border-radius: 20px;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.12);
+  min-width: 150px;
+  text-align: center;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+.role-btn.notif.visible {
+  animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+.role-btn.notif.visible:hover {
+  border-color: rgba(232,75,138,0.3);
+  background: rgba(232,75,138,0.08);
+}
+
+.role-icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+.role-label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.9);
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+}
+
+/* Running counter */
+.role-counter {
+  position: relative; z-index: 10;
+  margin-top: 28px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.2);
+  min-height: 1.2em;
+}
+.role-counter.show {
+  color: var(--pink-light);
+  opacity: 0.85;
+  transition: color 0.3s ease;
+}
+
+@media (max-width: 900px) {
+  .role-gallery { max-width: 100%; }
+  .role-btn.notif { min-width: 120px; padding: 16px 18px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="slide-nav" id="slideNav"></nav>
+
+<!-- ===== S1: TITLE ===== -->
+<section class="slide dark" id="s1" style="align-items:flex-start;">
+  <div style="position:absolute; top:-20%; right:-15%; width:60vw; height:60vw; border-radius:50%; background:radial-gradient(circle, rgba(232,75,138,0.05) 0%, transparent 55%);"></div>
+  <div style="position:relative; z-index:2; max-width:800px;">
+    <div style="margin-bottom:48px; opacity:0; animation:fadeUp 0.5s ease forwards 0.2s;">
+      <img src="../Brand/logo-final-white.png" alt="White Rabbit Clubhouse" style="height:28px;">
+    </div>
+    <h1 class="hero-text" style="color:#fff; opacity:0; animation:fadeUp 0.6s ease forwards 0.35s;">
+      Welcome to<br>our <em>Laboratory</em>
+    </h1>
+    <p style="font-size:clamp(1.15rem,1.8vw,1.35rem); font-weight:300; color:var(--green-light); max-width:640px; line-height:1.7; margin-top:22px; opacity:0; animation:fadeUp 0.5s ease forwards 0.55s;">
+      Ashland has an AI laboratory. It's disguised as a café.<br>Here's what we're learning — and why it matters for all of us.
+    </p>
+    <div style="margin-top:52px; display:flex; gap:36px; opacity:0; animation:fadeUp 0.5s ease forwards 0.7s;">
+      <div><div style="font-weight:600; font-size:1rem; color:rgba(255,255,255,0.55);">SOREDI</div><div style="font-size:0.75rem; color:rgba(255,255,255,0.2); margin-top:3px;">Presented to</div></div>
+      <div><div style="font-weight:600; font-size:1rem; color:rgba(255,255,255,0.55);">February 2026</div><div style="font-size:0.75rem; color:rgba(255,255,255,0.2); margin-top:3px;">Date</div></div>
+      <div><div style="font-weight:600; font-size:1rem; color:rgba(255,255,255,0.55);">Thor Muller</div><div style="font-size:0.75rem; color:rgba(255,255,255,0.2); margin-top:3px;">Presenter</div></div>
+    </div>
+  </div>
+  <div class="slide-counter mono" style="color:rgba(255,255,255,0.08);">01 / 13</div>
+</section>
+
+<!-- ===== S2: WHITE RABBIT INTRO ===== -->
+<section class="slide dark" id="s2">
+  <div style="max-width:900px; position:relative; z-index:2;">
+    <span class="overline" style="opacity:0; animation:fadeUp 0.5s ease forwards 0.2s;">White Rabbit Clubhouse</span>
+    <h2 class="big-statement" style="color:#fff; margin-bottom:16px; opacity:0; animation:fadeUp 0.5s ease forwards 0.35s;">
+      Southern Oregon's launchpad for<br>new businesses and creative ventures.
+    </h2>
+    <div class="divider" style="opacity:0; animation:fadeUp 0.4s ease forwards 0.5s;"></div>
+    <p style="font-family:'Instrument Serif',serif; font-size:clamp(1.35rem,2.5vw,1.75rem); font-style:italic; color:rgba(255,255,255,0.4); line-height:1.65; max-width:720px; opacity:0; animation:fadeUp 0.5s ease forwards 0.6s;">
+      It looks like a café. It runs like a company with a team of dozens.<br>
+      <strong style="color:rgba(255,255,255,0.7); font-weight:400;">A model for the business of the near future?</strong>
+    </p>
+  </div>
+  <div class="slide-counter mono" style="color:rgba(255,255,255,0.08);">02 / 13</div>
+</section>
+
+<!-- ===== S3: THE SHIFT ===== -->
+<section class="slide dark demo-slide" id="s3" style="justify-content:center; align-items:center; text-align:center;">
+  <div style="position:relative; z-index:2; max-width:1100px;">
+    <div style="display:flex; align-items:center; justify-content:center; gap:72px;">
+      <!-- Always visible: Tool -->
+      <div style="flex:1; opacity:0; animation:fadeUp 0.5s ease forwards 0.3s;">
+        <div style="font-size:7rem; margin-bottom:20px; opacity:0.8;">💬</div>
+        <div style="font-family:'Instrument Serif',serif; font-size:clamp(2.8rem,5.5vw,4.2rem); color:rgba(255,255,255,0.5); line-height:1.15;">
+          AI as a<br><span style="font-style:italic;">tool</span>
+        </div>
+        <div style="font-size:1.15rem; color:rgba(255,255,255,0.4); margin-top:16px; line-height:1.6;">You ask. It answers.<br>Then it waits.</div>
+      </div>
+      <!-- Step 1: Arrow + Teammate -->
+      <div class="build-item" data-step="1" style="flex:1.15; display:flex; align-items:center; gap:72px;">
+        <div style="flex-shrink:0;">
+          <div style="font-size:3.5rem; color:var(--pink); opacity:0.8;">→</div>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:7rem; margin-bottom:20px;">🧠</div>
+          <div style="font-family:'Instrument Serif',serif; font-size:clamp(2.8rem,5.5vw,4.2rem); color:#fff; line-height:1.15;">
+            AI as a<br><em style="color:var(--pink);">teammate</em>
+          </div>
+          <div style="font-size:1.15rem; color:rgba(255,255,255,0.6); margin-top:16px; line-height:1.6;">It perceives. It remembers.<br>It decides. <strong style="color:rgba(255,255,255,0.85);">It acts.</strong></div>
+        </div>
+      </div>
+    </div>
+    <!-- Step 2: Bottom quote -->
+    <p class="build-item" data-step="2" style="font-family:'Instrument Serif',serif; font-size:clamp(1.5rem,2.8vw,2rem); font-style:italic; color:rgba(255,255,255,0.45); margin-top:64px;">
+      The biggest companies spent billions building data tools that gave them unfair advantage.<br>
+      <strong style="color:rgba(255,255,255,0.8); font-weight:400;">Now it's available to everyone.</strong>
+    </p>
+  </div>
+  <div class="slide-counter mono" style="color:rgba(255,255,255,0.08);">03 / 13</div>
+  <div class="click-hint">click to advance →</div>
+</section>
+
+<!-- ===== S4: IT ANSWERS (DEMO SLIDE 1) ===== -->
+<section class="slide dark demo-slide scene-kitchen" id="s4">
+  <div class="scene-backdrop"></div>
+  <div class="scene-photo-placeholder">café counter</div>
+  <div class="scene-label">Café counter · afternoon</div>
+  <div class="swap-notice">↑ swap with real photo</div>
+  <div class="stage-tag">
+    <div class="stage-pip active"></div>
+    <div class="stage-pip"></div>
+    <div class="stage-pip"></div>
+    <div class="stage-pip"></div>
+    <div class="stage-pip"></div>
+  </div>
+
+  <img src="napkin-recipe.png" alt="Carrot Ginger Soup napkin recipe" style="position:absolute; top:80px; right:80px; width:560px; border-radius:16px; box-shadow:0 12px 48px rgba(0,0,0,0.4); z-index:10; opacity:0; animation:fadeUp 0.6s ease forwards 0.2s;">
+
+  <div class="stage-title">It <em>answers</em> when you ask.</div>
+
+  <div class="notif-feed">
+    <div class="notif" data-step="1">
+      <div class="notif-icon human">👩‍🍳</div>
+      <div class="notif-body">
+        <div class="notif-text"><strong>Rose</strong> adds carrot ginger soup to the menu</div>
+      </div>
+    </div>
+    <div class="notif" data-step="2">
+      <div class="notif-icon ai">🤖</div>
+      <div class="notif-body">
+        <div class="notif-text">Recipe received — <span class="highlight">calculating price</span></div>
+        <div class="notif-sub">ingredient cost · market research · margin analysis</div>
+      </div>
+    </div>
+    <div class="notif" data-step="3">
+      <div class="notif-icon outcome">✓</div>
+      <div class="notif-body">
+        <div class="notif-text"><strong>$2.40 cost → $9 suggested</strong> · market range $8–12</div>
+        <div class="notif-sub green">menu updated · pricing live · 90 seconds</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-counter">04 / 13</div>
+  <div class="click-hint">click to advance →</div>
+</section>
+
+<!-- ===== S5: IT ACTS (DEMO SLIDE 2) ===== -->
+<section class="slide dark demo-slide scene-snow" id="s5">
+  <div class="scene-backdrop"></div>
+  <img src="snow-lithia-park.png" alt="Snowy Lithia Park" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0.3; z-index:1;">
+  <div class="scene-label">Snow day · 5:47 AM · before staff arrives</div>
+  <div class="stage-tag">
+    <div class="stage-pip done"></div>
+    <div class="stage-pip active"></div>
+    <div class="stage-pip"></div>
+    <div class="stage-pip"></div>
+    <div class="stage-pip"></div>
+  </div>
+
+  <div class="stage-title">It <em>acts</em> before you ask.</div>
+
+  <div class="notif-feed">
+    <div class="notif" data-step="1">
+      <div class="notif-icon ai">❄️</div>
+      <div class="notif-body">
+        <div class="notif-text"><strong>6" snowfall overnight</strong> — adjusting</div>
+        <div class="notif-sub">forecast detected · no one asked</div>
+      </div>
+    </div>
+    <div class="notif" data-step="2">
+      <div class="notif-icon ai">☕</div>
+      <div class="notif-body">
+        <div class="notif-text">Hot cocoa → <span class="highlight">featured menu item</span></div>
+        <div class="notif-sub green">menu updated before doors open</div>
+      </div>
+    </div>
+    <div class="notif" data-step="3">
+      <div class="notif-icon ai">📱</div>
+      <div class="notif-body">
+        <div class="notif-text">Snow day promo <strong>drafted and scheduled</strong></div>
+      </div>
+    </div>
+    <div class="time-break" data-step="4">· · · later that week · · ·</div>
+    <div class="notif" data-step="5">
+      <div class="notif-icon ai">🎵</div>
+      <div class="notif-body">
+        <div class="notif-text">9 AM focus → <strong>acoustic, volume down</strong><br>2 PM buzz → <strong>upbeat, volume up</strong></div>
+        <div class="notif-sub">learned from staff adjustments over weeks</div>
+      </div>
+    </div>
+    <div class="notif" data-step="6">
+      <div class="notif-icon ai">🧾</div>
+      <div class="notif-body">
+        <div class="notif-text"><strong>"Thor, scan your Costco receipt — now please"</strong></div>
+        <div class="notif-sub green">books closed · 3 days after month end</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-counter">05 / 13</div>
+  <div class="click-hint">click to advance →</div>
+</section>
+
+<!-- ===== S6: IT RUNS (DEMO SLIDE 3) ===== -->
+<section class="slide dark demo-slide scene-meeting" id="s6">
+  <div class="scene-backdrop"></div>
+  <img src="whiteboard-funnel.png" alt="Conversion funnel whiteboard" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0.2; z-index:1;">
+  <div class="scene-label">Planning meeting · the following week</div>
+  <div class="stage-tag">
+    <div class="stage-pip done"></div>
+    <div class="stage-pip done"></div>
+    <div class="stage-pip active"></div>
+    <div class="stage-pip"></div>
+    <div class="stage-pip"></div>
+  </div>
+
+  <div class="stage-title">It <em>runs</em> the business.</div>
+
+  <div class="notif-feed">
+    <div class="notif" data-step="1">
+      <div class="notif-icon ai">📋</div>
+      <div class="notif-body">
+        <div class="notif-text">Sat in planning meeting — <strong>understood our strategy</strong></div>
+      </div>
+    </div>
+    <div class="notif" data-step="2">
+      <div class="notif-icon ai">📊</div>
+      <div class="notif-body">
+        <div class="notif-text">"Your blind spot: <span class="highlight">foot traffic → conversion gap</span>"</div>
+        <div class="notif-sub">recommended new KPI · researched solutions</div>
+      </div>
+    </div>
+    <div class="notif" data-step="3">
+      <div class="notif-icon ai">📦</div>
+      <div class="notif-body">
+        <div class="notif-text">Door sensor <strong>ordered</strong> — install Tuesday</div>
+        <div class="notif-sub green">conversion funnel tracking begins</div>
+      </div>
+    </div>
+    <div class="notif" data-step="4">
+      <div class="notif-icon ai">🧪</div>
+      <div class="notif-body">
+        <div class="notif-text">First experiment: <strong>lunch special + new signage</strong></div>
+        <div class="notif-sub">designed to test conversion impact</div>
+      </div>
+    </div>
+    <div class="notif" data-step="5">
+      <div class="notif-icon ai">👥</div>
+      <div class="notif-body">
+        <div class="notif-text">Staffing: <strong>"Add coverage 11:30–1:30"</strong></div>
+        <div class="notif-sub">projecting 18% spring increase from seasonal data</div>
+      </div>
+    </div>
+    <div class="notif" data-step="6">
+      <div class="notif-icon ai">🔓</div>
+      <div class="notif-body">
+        <div class="notif-text">"Thor — <span class="highlight">3 processes where I should replace you</span>"</div>
+        <div class="notif-sub">bottleneck analysis · delegation plan drafted</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-counter">06 / 13</div>
+  <div class="click-hint">click to advance →</div>
+</section>
+
+<!-- ===== S7: IT IMPROVES (DEMO SLIDE 4) ===== -->
+<section class="slide dark demo-slide scene-night" id="s7">
+  <div class="scene-backdrop"></div>
+  <div class="scene-photo-placeholder">11:47 pm</div>
+  <div class="scene-label">Every night · 11:47 PM · after everyone's gone home</div>
+  <div class="swap-notice">↑ swap with real photo</div>
+  <div class="stage-tag">
+    <div class="stage-pip done"></div>
+    <div class="stage-pip done"></div>
+    <div class="stage-pip done"></div>
+    <div class="stage-pip active"></div>
+    <div class="stage-pip"></div>
+  </div>
+
+  <div class="stage-title">It <em>improves</em> itself.</div>
+
+  <div class="notif-feed">
+    <div class="notif" data-step="1">
+      <div class="notif-icon ai">📝</div>
+      <div class="notif-body">
+        <div class="notif-text">Reviewing today — <strong>34 actions taken</strong></div>
+      </div>
+    </div>
+    <div class="notif" data-step="2">
+      <div class="notif-icon outcome">✓</div>
+      <div class="notif-body">
+        <div class="notif-text">Snow day cocoa promo → <strong>2.3x normal sales</strong></div>
+        <div class="notif-sub green">saved to playbook · will reuse next weather event</div>
+      </div>
+    </div>
+    <div class="notif" data-step="3">
+      <div class="notif-icon fail">✗</div>
+      <div class="notif-body">
+        <div class="notif-text">Newsletter open rate <strong>below target</strong></div>
+        <div class="notif-sub">testing new subject line format tomorrow</div>
+      </div>
+    </div>
+    <div class="notif" data-step="4">
+      <div class="notif-icon ai">🔧</div>
+      <div class="notif-body">
+        <div class="notif-text">New tool built: <span class="highlight">weather-aware inventory</span></div>
+        <div class="notif-sub">learned from snow day · applied to all forecasts</div>
+      </div>
+    </div>
+    <div class="notif" data-step="5">
+      <div class="notif-icon ai">🔄</div>
+      <div class="notif-body">
+        <div class="notif-text">Receipt workflow <strong>refined</strong> — nudges start Day 25 now</div>
+        <div class="notif-sub green">earlier = fewer chasers needed</div>
+      </div>
+    </div>
+    <div class="time-break" data-step="6">· · · tomorrow it's better · · ·</div>
+  </div>
+
+  <div class="slide-counter">07 / 13</div>
+  <div class="click-hint">click to advance →</div>
+</section>
+
+<!-- ===== S8: THE TEAM GALLERY (DEMO SLIDE 5) ===== -->
+<section class="slide dark demo-slide scene-reveal" id="s8">
+  <div class="scene-backdrop"></div>
+  <div class="scene-label">The specialists you'd need — if you could afford them</div>
+  <div class="stage-tag">
+    <div class="stage-pip done"></div>
+    <div class="stage-pip done"></div>
+    <div class="stage-pip done"></div>
+    <div class="stage-pip done"></div>
+    <div class="stage-pip done"></div>
+  </div>
+
+  <div class="stage-title">Every small business becomes <em>this</em>.</div>
+
+  <div class="role-gallery">
+    <div class="role-btn notif" data-step="1">
+      <div class="role-icon">👨‍🍳</div>
+      <div class="role-label">F&B Cost Analyst</div>
+    </div>
+    <div class="role-btn notif" data-step="2">
+      <div class="role-icon">📦</div>
+      <div class="role-label">Inventory Manager</div>
+    </div>
+    <div class="role-btn notif" data-step="3">
+      <div class="role-icon">🎯</div>
+      <div class="role-label">Marketing Director</div>
+    </div>
+    <div class="role-btn notif" data-step="4">
+      <div class="role-icon">📊</div>
+      <div class="role-label">Merchandising Analyst</div>
+    </div>
+    <div class="role-btn notif" data-step="5">
+      <div class="role-icon">🎵</div>
+      <div class="role-label">Atmosphere Curator</div>
+    </div>
+    <div class="role-btn notif" data-step="6">
+      <div class="role-icon">🧾</div>
+      <div class="role-label">Bookkeeper</div>
+    </div>
+    <div class="role-btn notif" data-step="7">
+      <div class="role-icon">👥</div>
+      <div class="role-label">Staffing Manager</div>
+    </div>
+    <div class="role-btn notif" data-step="8">
+      <div class="role-icon">📈</div>
+      <div class="role-label">Conversion Strategist</div>
+    </div>
+    <div class="role-btn notif" data-step="9">
+      <div class="role-icon">🧪</div>
+      <div class="role-label">Growth Experimenter</div>
+    </div>
+    <div class="role-btn notif" data-step="10">
+      <div class="role-icon">🧠</div>
+      <div class="role-label">Business Strategist</div>
+    </div>
+    <div class="role-btn notif" data-step="11">
+      <div class="role-icon">🤝</div>
+      <div class="role-label">Community Manager</div>
+    </div>
+    <div class="role-btn notif" data-step="12">
+      <div class="role-icon">🔄</div>
+      <div class="role-label">Process Optimizer</div>
+    </div>
+  </div>
+
+  <div class="role-counter" id="roleCounter"></div>
+
+  <div class="slide-counter">08 / 13</div>
+  <div class="click-hint">click to advance →</div>
+</section>
+
+<!-- ===== S9: THE ASHLAND EVENING ===== -->
+<section class="slide dark demo-slide" id="s9">
+  <div style="max-width:820px; position:relative; z-index:2;">
+    <h2 class="big-statement" style="color:#fff; margin-bottom:28px; opacity:0; animation:fadeUp 0.5s ease forwards 0.3s;">Now imagine this <em>across an entire town.</em></h2>
+    <div class="story-sequence">
+      <div class="story-beat build-item" data-step="1">A tourist buys theatre tickets.</div>
+      <div class="story-beat build-item" data-step="2">The restaurant offers a prix fixe <strong style="color:rgba(255,255,255,0.6);">timed to curtain.</strong></div>
+      <div class="story-beat build-item" data-step="3">The wine bar hosts a post-show tasting.</div>
+      <div class="story-beat build-item" data-step="4">The bookshop features the playwright.</div>
+      <div class="story-beat build-item" data-step="5">The B&B offers a weekend package.</div>
+      <div class="story-beat accent build-item" data-step="6">The tourist didn't plan an evening. They got a curated Ashland experience.</div>
+      <div class="story-beat punch build-item" data-step="7">Five independent businesses. One seamless moment. Coordinated by AI.</div>
+    </div>
+  </div>
+  <div class="slide-counter mono" style="color:rgba(255,255,255,0.08);">09 / 13</div>
+  <div class="click-hint">click to advance →</div>
+</section>
+
+<!-- ===== S10: THIS IS ROVA ===== -->
+<section class="slide light" id="s10" style="flex-direction:row; align-items:center; justify-content:space-between; gap:60px;">
+  <div style="max-width:540px; flex-shrink:0;">
+    <span class="overline">The platform</span>
+    <h2 class="hero-text" style="font-size:clamp(4rem,8.5vw,6.5rem); color:var(--text);">
+      This is <em>Rova.</em>
+    </h2>
+    <div class="divider"></div>
+    <p style="font-family:'Instrument Serif',serif; font-size:clamp(1.5rem,2.8vw,2rem); font-style:italic; color:var(--text-soft); line-height:1.7;">
+      Everything you just saw — we're packaging it.<br>
+      An AI operating system for local economies.<br>
+      Built here. For communities like ours.
+    </p>
+  </div>
+  <img src="rova-app-screens.webp" alt="Rova app screens" style="max-width:576px; width:48vw; flex-shrink:1; object-fit:contain;">
+  <div class="slide-counter mono" style="color:var(--text-faint);">10 / 13</div>
+</section>
+
+<!-- ===== S11: THE INVITATION ===== -->
+<section class="slide dark" id="s11">
+  <div style="max-width:1060px; position:relative; z-index:2;">
+    <h2 class="big-statement" style="color:#fff; margin-bottom:12px; font-size:clamp(3.2rem,6.5vw,5rem);">Two <em>invitations.</em></h2>
+    <div class="invite-cols" style="gap:36px;">
+      <div class="invite-card subtle" style="padding:56px 54px;">
+        <div class="inv-label" style="font-size:0.85rem;">For your business</div>
+        <h3 class="serif" style="font-size:2.6rem;">AI Business Ops Workshop</h3>
+        <p style="font-size:1.35rem;">Deep diagnostic. Working prototypes. You leave with tools running.</p>
+        <div class="inv-cta" style="font-size:1.25rem;">First cohort forming now →</div>
+      </div>
+      <div class="invite-card pink" style="padding:56px 54px;">
+        <div class="inv-label" style="font-size:0.85rem;">For the bigger picture</div>
+        <h3 class="serif" style="font-size:2.6rem;">AI Leadership Working Group</h3>
+        <p style="font-size:1.35rem;">Shape the Valley's AI strategy — don't react to it. First meeting at White Rabbit.</p>
+        <div class="inv-cta" style="font-size:1.25rem;">Limited seats. Talk to me after →</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-counter mono" style="color:rgba(255,255,255,0.08);">11 / 13</div>
+</section>
+
+<!-- ===== S12: THE CLOSE ===== -->
+<section class="slide dark" id="s12">
+  <div style="max-width:900px; position:relative; z-index:2; text-align:center; margin:0 auto;">
+    <h2 class="hero-text" style="color:#fff; font-size:clamp(3.8rem,7.5vw,5.8rem); line-height:1.25;">
+      The lab is <em>open.</em>
+    </h2>
+    <div class="divider" style="margin:32px auto; background:rgba(232,75,138,0.4);"></div>
+    <p style="font-size:1.45rem; font-weight:300; color:var(--green-light); line-height:1.8; max-width:740px; margin:0 auto;">
+      The future of local business isn't being designed in San Francisco.<br>
+      It's being built on Main Street — by the people in this room.
+    </p>
+    <p style="font-family:'Instrument Serif',serif; font-size:clamp(1.8rem,3.2vw,2.4rem); font-style:italic; color:var(--pink); margin-top:36px;">
+      Let's get to work.
+    </p>
+  </div>
+  <div class="slide-counter mono" style="color:rgba(255,255,255,0.08);">12 / 13</div>
+</section>
+
+<!-- ===== S13: CONTACT ===== -->
+<section class="slide dark" id="s13" style="justify-content:flex-end; padding-bottom:120px;">
+  <div style="position:relative; z-index:2;">
+    <div style="font-family:'Instrument Serif',serif; font-size:clamp(2.6rem,5vw,3.8rem); color:#fff; margin-bottom:8px;">Thor Muller</div>
+    <div style="font-size:1.05rem; color:var(--pink); margin-bottom:28px;">White Rabbit Clubhouse · Rova · Rogue Valley AI Lab</div>
+    <div style="font-size:0.95rem; color:rgba(255,255,255,0.25); line-height:1.7;">
+      thor@whiterabbitclubhouse.com<br>
+      whiterabbitclubhouse.com
+    </div>
+  </div>
+  <div class="slide-counter mono" style="color:rgba(255,255,255,0.08);">13 / 13</div>
+</section>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const nav = document.getElementById('slideNav');
+
+// Build nav
+slides.forEach((s) => {
+  const a = document.createElement('a');
+  a.href = '#' + s.id;
+  nav.appendChild(a);
+});
+
+// Track state per slide (for demo slides)
+const slideState = new Map();
+slides.forEach(s => {
+  const items = s.querySelectorAll('.notif, .time-break, .build-item');
+  slideState.set(s.id, { items: Array.from(items), current: 0, isDemo: s.classList.contains('demo-slide') });
+});
+
+function getCurrentSlide() {
+  let best = null;
+  let bestDist = Infinity;
+  slides.forEach(s => {
+    const r = s.getBoundingClientRect();
+    const dist = Math.abs(r.top);
+    if (dist < bestDist) { bestDist = dist; best = s; }
+  });
+  return best;
+}
+
+function resetSlide(slide) {
+  const state = slideState.get(slide.id);
+  state.current = 0;
+  state.items.forEach(item => {
+    item.classList.remove('visible');
+  });
+  updateRoleCounter(slide, 0);
+}
+
+function updateRoleCounter(slide, count) {
+  const counter = slide.querySelector('.role-counter');
+  if (!counter) return;
+  if (count === 0) {
+    counter.textContent = '';
+    counter.classList.remove('show');
+  } else {
+    const total = slideState.get(slide.id).items.length;
+    counter.classList.add('show');
+    if (count < total) {
+      counter.textContent = count + ' specialist' + (count !== 1 ? 's' : '') + ' — and counting';
+    } else {
+      counter.textContent = 'Four people run this café.';
+    }
+  }
+}
+
+function advanceSlide(slide) {
+  const state = slideState.get(slide.id);
+  if (state.current < state.items.length) {
+    state.items[state.current].classList.add('visible');
+    state.current++;
+    updateRoleCounter(slide, state.current);
+    const hint = slide.querySelector('.click-hint');
+    if (hint) {
+      if (state.current >= state.items.length) {
+        hint.textContent = 'click for next slide →';
+      }
+    }
+  } else {
+    const idx = Array.from(slides).indexOf(slide);
+    if (idx < slides.length - 1) {
+      slides[idx + 1].scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+}
+
+// Click handler
+document.addEventListener('click', (e) => {
+  if (e.target.closest('.slide-nav')) return;
+  const slide = getCurrentSlide();
+  if (slide && slideState.get(slide.id).isDemo) {
+    advanceSlide(slide);
+  }
+});
+
+// Keyboard handler
+document.addEventListener('keydown', (e) => {
+  const slide = getCurrentSlide();
+  if (!slide) return;
+  const state = slideState.get(slide.id);
+
+  if (['ArrowRight', ' ', 'PageDown'].includes(e.key)) {
+    e.preventDefault();
+    if (state.isDemo) {
+      advanceSlide(slide);
+    } else {
+      const idx = Array.from(slides).indexOf(slide);
+      if (idx < slides.length - 1) slides[idx + 1].scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    const idx = Array.from(slides).indexOf(slide);
+    if (idx < slides.length - 1) {
+      slides[idx + 1].scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+  if (['ArrowLeft', 'PageUp'].includes(e.key)) {
+    e.preventDefault();
+    if (state.isDemo && state.current > 0) {
+      resetSlide(slide);
+    } else {
+      const idx = Array.from(slides).indexOf(slide);
+      if (idx > 0) {
+        slides[idx - 1].scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }
+  if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    const idx = Array.from(slides).indexOf(slide);
+    if (idx > 0) {
+      slides[idx - 1].scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+});
+
+// Intersection observer for nav + reset
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const idx = Array.from(slides).indexOf(e.target);
+      nav.querySelectorAll('a').forEach((a, i) => a.classList.toggle('active', i === idx));
+      resetSlide(e.target);
+      const hint = e.target.querySelector('.click-hint');
+      if (hint) hint.textContent = 'click to advance →';
+      // Re-trigger animations when slides come into view
+      if (e.target.classList.contains('demo-slide')) {
+        e.target.querySelectorAll('.notif, .time-break').forEach(m => {
+          m.style.animation = 'none';
+          m.offsetHeight;
+          m.style.animation = '';
+        });
+        e.target.querySelectorAll('.role-btn.notif').forEach(m => {
+          m.style.animation = 'none';
+          m.offsetHeight;
+          m.style.animation = '';
+        });
+        e.target.querySelectorAll('.build-item').forEach(m => {
+          m.style.animation = 'none';
+          m.offsetHeight;
+          m.style.animation = '';
+        });
+      }
+    }
+  });
+}, { threshold: 0.5 });
+slides.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
