@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Speaker Notes — SOREDI</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html {
+  scroll-snap-type: x mandatory;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  height: 100%;
+}
+body {
+  font-family: 'Outfit', sans-serif;
+  background: #111;
+  color: #eee;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  -webkit-font-smoothing: antialiased;
+}
+
+.note {
+  min-width: 100vw;
+  height: 100vh;
+  scroll-snap-align: start;
+  padding: 28px 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  padding-left: env(safe-area-inset-left, 36px);
+  padding-right: env(safe-area-inset-right, 36px);
+}
+
+.note-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.note-num {
+  font-weight: 600;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #E84B8A;
+  flex-shrink: 0;
+}
+.note-title {
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.02em;
+}
+.note-time {
+  font-weight: 400;
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.2);
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.note-body {
+  font-size: 1.15rem;
+  line-height: 1.55;
+  font-weight: 300;
+  color: rgba(255,255,255,0.88);
+  max-width: 100%;
+}
+.note-body strong {
+  font-weight: 500;
+  color: #fff;
+}
+.note-body .action {
+  color: #E84B8A;
+  font-weight: 500;
+}
+.note-body .cue {
+  color: #8CB76D;
+  font-weight: 400;
+  font-size: 0.85em;
+}
+
+.note-tip {
+  margin-top: 14px;
+  font-size: 0.72rem;
+  font-style: italic;
+  color: rgba(255,255,255,0.22);
+  line-height: 1.5;
+}
+
+.note-progress {
+  position: absolute;
+  bottom: 16px;
+  left: 36px;
+  right: 36px;
+  display: flex;
+  gap: 4px;
+}
+.note-progress .pip {
+  flex: 1;
+  height: 2px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 1px;
+}
+.note-progress .pip.done {
+  background: rgba(232,75,138,0.4);
+}
+.note-progress .pip.current {
+  background: #E84B8A;
+}
+
+/* Landscape iPhone optimization */
+@media (max-height: 500px) {
+  .note { padding: 18px 32px; }
+  .note-header { margin-bottom: 10px; }
+  .note-body { font-size: 1rem; line-height: 1.45; }
+  .note-tip { margin-top: 8px; font-size: 0.65rem; }
+}
+@media (max-height: 380px) {
+  .note { padding: 14px 28px; }
+  .note-body { font-size: 0.88rem; line-height: 1.4; }
+}
+</style>
+</head>
+<body>
+
+<!-- S1 -->
+<div class="note" data-slide="1">
+  <div class="note-header">
+    <span class="note-num">S1</span>
+    <span class="note-title">Welcome</span>
+    <span class="note-time">0:30</span>
+  </div>
+  <div class="note-body">
+    Good morning. When you think of Southern Oregon, most people don't immediately think of technology leadership. But I'm here to tell you that we have <strong>world-class innovators</strong> among us. You can often find them working at White Rabbit — which from the outside looks like a caf&eacute;. But <strong>it's actually a lab.</strong>
+  </div>
+  <div class="note-tip">Don't rush "it's actually a lab" — that's the hook.</div>
+  <div class="note-progress"></div>
+</div>
+
+<!-- S2 -->
+<div class="note" data-slide="2">
+  <div class="note-header">
+    <span class="note-num">S2</span>
+    <span class="note-title">White Rabbit</span>
+    <span class="note-time">0:30</span>
+  </div>
+  <div class="note-body">
+    We launched last September after spending years building a community of builders through the <strong>Rogue Valley AI Lab</strong>, which we started here in Ashland going on three years ago. We focus on launching real AI-powered businesses. Our caf&eacute; has become a perfect test case for where business is headed.
+  </div>
+  <div class="note-tip">Tight. The deck says the rest — let people read "launchpad for new businesses" while you talk.</div>
+  <div class="note-progress"></div>
+</div>
+
+<!-- S3 -->
+<div class="note" data-slide="3">
+  <div class="note-header">
+    <span class="note-num">S3</span>
+    <span class="note-title">The Shift</span>
+    <span class="note-time">0:50</span>
+  </div>
+  <div class="note-body">
+    How many of you have used an AI chatbot, like ChatGPT? <span class="action">[Click.]</span> Chances are you use it as a tool. A very handy tool — you ask a question, it gives an answer, waits for another one. Let's contrast that with <strong>AI as a teammate</strong> — what we call "agentic AI." This is AI that can be given a goal and tools, and it figures out on its own how to reach that goal. It perceives the world around it, remembers from day to day, makes decisions. Most importantly — <strong>it takes action.</strong> <span class="action">[Click.]</span> Important to note: we now have access to the same tools that the biggest companies in the world do.
+  </div>
+  <div class="note-progress"></div>
+</div>
+
+<!-- S4 -->
+<div class="note" data-slide="4">
+  <div class="note-header">
+    <span class="note-num">S4</span>
+    <span class="note-title">It Answers</span>
+    <span class="note-time">0:40</span>
+  </div>
+  <div class="note-body">
+    So let me show you how we're using AI as a teammate today in our caf&eacute;. At one level it's familiar: it answers when asked. <span class="action">[Click.]</span> Our food and beverage manager Rose jots down a recipe for silken carrot ginger soup and shares it with our caf&eacute; AI. <span class="action">[Click.]</span> The AI looks up the ingredients, sees their cost, searches the web for local market pricing, and updates the menu with the right price. <span class="action">[Click.]</span> <strong>This took 90 seconds.</strong>
+  </div>
+  <div class="note-progress"></div>
+</div>
+
+<!-- S5 -->
+<div class="note" data-slide="5">
+  <div class="note-header">
+    <span class="note-num">S5</span>
+    <span class="note-title">It Acts</span>
+    <span class="note-time">1:15</span>
+  </div>
+  <div class="note-body">
+    Last week it snowed. Finally. That same AI agent woke up before all of us and saw the weather. <span class="action">[Click.]</span> It projected that people enjoying the snow day by the park might want hot cocoa, and adjusted the menu to feature it. <span class="action">[Click.]</span> Then it drafted a social media promo and sent it to our very human social media person. All before 7am. <span class="action">[Click — time break.]</span> It's doing this kind of thing all day long. <span class="action">[Click.]</span> And annoyingly, it is very good at bugging me to get my receipts in so it can close the books. <span class="action">[Click.]</span> <strong>Books closed three days after month end.</strong> That used to take us two weeks.
+  </div>
+  <div class="note-progress"></div>
+</div>
+
+<!-- S6 -->
+<div class="note" data-slide="6">
+  <div class="note-header">
+    <span class="note-num">S6</span>
+    <span class="note-title">It Runs</span>
+    <span class="note-time">1:15</span>
+  </div>
+  <div class="note-body">
+    Yes, it is very active in helping run the business. <span class="action">[Click.]</span> We include it in our planning meetings — they all get immediately transcribed. It has pitch-perfect knowledge of our strategy. <span class="action">[Click.]</span> As a result it can see our blind spot — we don't have good data about how well we're converting foot traffic. <span class="action">[Click.]</span> So it orders a door sensor to help it see better. Very self-serving. But it allows it to guide us in running experiments to improve that conversion. <span class="action">[Click.]</span> Perhaps most annoyingly, it sees where <strong>I'm the bottleneck</strong> for getting things done, and suggests how it can take on those tasks.
+  </div>
+  <div class="note-progress"></div>
+</div>
+
+<!-- S7 -->
+<div class="note" data-slide="7">
+  <div class="note-header">
+    <span class="note-num">S7</span>
+    <span class="note-title">It Improves</span>
+    <span class="note-time">0:50</span>
+  </div>
+  <div class="note-body">
+    But here's the big one: <span class="action">[Click.]</span> it's improving itself every day, reviewing what it did. How well did its suggestions work? Did it take the hard way? <span class="action">[Click.]</span> Did its tips for better marketing work? <span class="action">[Click.]</span> But it doesn't just take notes — <strong>it takes action.</strong> <span class="action">[Click.]</span> Creating or editing its tools. Maybe planning for weather earlier. Maybe it needs to bug me earlier in the month about those Costco receipts to close the books on time. <span class="action">[Click.]</span> This is how AI accelerates the development of a new business in record time.
+  </div>
+  <div class="note-tip">The "bug me earlier" callback gets a knowing laugh.</div>
+  <div class="note-progress"></div>
+</div>
+
+<!-- S8 -->
+<div class="note" data-slide="8">
+  <div class="note-header">
+    <span class="note-num">S8</span>
+    <span class="note-title">Specialist Gallery</span>
+    <span class="note-time">1:15</span>
+  </div>
+  <div class="note-body">
+    So let's add it up. Everything you just saw — what kind of team would you need to do all of that? <span class="action">[Click through, naming each:]</span> A food and beverage cost analyst. An inventory manager. A marketing director. A merchandising analyst. An atmosphere curator. A bookkeeper. A staffing manager. A conversion strategist. A growth experimenter. A business strategist. A community manager. A process optimizer. <span class="action">[Pause.]</span> <strong>Three humans run this caf&eacute;.</strong> We're moving into a world where every small business starts to look like it has a team of specialists it never could have afforded. That changes every industry in this room. And those of us who get there early? <strong>We shape what the market looks like.</strong>
+  </div>
+  <div class="note-tip">Drop your voice on "Three humans."</div>
+  <div class="note-progress"></div>
+</div>
+
+<!-- S9 -->
+<div class="note" data-slide="9">
+  <div class="note-header">
+    <span class="note-num">S9</span>
+    <span class="note-title">Ashland Evening</span>
+    <span class="note-time">1:00</span>
+  </div>
+  <div class="note-body">
+    Now zoom out. What happens when it's not just one caf&eacute;? <span class="action">[Click.]</span> A tourist buys theatre tickets. <span class="action">[Clicks, building each:]</span> The restaurant offers a prix fixe timed to curtain. The wine bar hosts a post-show tasting. The bookshop features the playwright. The B&amp;B wraps it into a weekend package. <span class="action">[Click.]</span> The tourist didn't plan an evening. They got a <strong>curated Ashland experience.</strong> <span class="action">[Click.]</span> Five independent businesses. One seamless moment. Coordinated by AI. Each business stays independent. Each keeps its identity. But together, they create something <strong>none of them could alone.</strong>
+  </div>
+  <div class="note-progress"></div>
+</div>
+
+<!-- S10 -->
+<div class="note" data-slide="10">
+  <div class="note-header">
+    <span class="note-num">S10</span>
+    <span class="note-title">Rova</span>
+    <span class="note-time">0:25</span>
+  </div>
+  <div class="note-body">
+    Everything I just showed you — the agents, the intelligence, the Ashland evening — <strong>we're packaging it into a platform.</strong> It's called Rova. An AI operating system for local economies. Built here. For communities like ours.
+  </div>
+  <div class="note-tip">Brief. The deck does the visual work.</div>
+  <div class="note-progress"></div>
+</div>
+
+<!-- S11 -->
+<div class="note" data-slide="11">
+  <div class="note-header">
+    <span class="note-num">S11</span>
+    <span class="note-title">Invitations</span>
+    <span class="note-time">0:40</span>
+  </div>
+  <div class="note-body">
+    Two invitations. The first is for anyone thinking: "I want that for my business." We're running an <strong>AI business ops workshop.</strong> Deep diagnostic, working prototypes — you leave with tools running. First cohort is forming now. The second is for those who heard the Ashland evening story and thought: "I want to help build that." An <strong>AI leadership working group.</strong> Shaping the Valley's AI strategy, not reacting to it. Limited seats — talk to me after.
+  </div>
+  <div class="note-progress"></div>
+</div>
+
+<!-- S12 -->
+<div class="note" data-slide="12">
+  <div class="note-header">
+    <span class="note-num">S12</span>
+    <span class="note-title">Close</span>
+    <span class="note-time">0:25</span>
+  </div>
+  <div class="note-body">
+    Every business in this room could operate like this within a year. That's not a town with AI. That's an <strong>AI-native economy.</strong> And we'd be the first. The lab is open. <strong>Let's get to work.</strong>
+  </div>
+  <div class="note-progress"></div>
+</div>
+
+<!-- S13 -->
+<div class="note" data-slide="13">
+  <div class="note-header">
+    <span class="note-num">S13</span>
+    <span class="note-title">Contact</span>
+    <span class="note-time"></span>
+  </div>
+  <div class="note-body" style="font-size:1.6rem;">
+    Thank you. <strong>Stand still.</strong>
+  </div>
+  <div class="note-progress"></div>
+</div>
+
+<script>
+const notes = document.querySelectorAll('.note');
+const total = notes.length;
+
+// Build progress pips
+notes.forEach((note, idx) => {
+  const bar = note.querySelector('.note-progress');
+  for (let i = 0; i < total; i++) {
+    const pip = document.createElement('div');
+    pip.className = 'pip' + (i < idx ? ' done' : '') + (i === idx ? ' current' : '');
+    bar.appendChild(pip);
+  }
+});
+</script>
+
+</body>
+</html>
