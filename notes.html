@@ -27,13 +27,14 @@ body {
   min-width: 100vw;
   height: 100vh;
   scroll-snap-align: start;
-  padding: 28px 36px;
+  padding: 28px 36px 40px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   position: relative;
   padding-left: env(safe-area-inset-left, 36px);
   padding-right: env(safe-area-inset-right, 36px);
+  overflow-y: auto;
 }
 
 .note-header {
@@ -44,7 +45,7 @@ body {
 }
 .note-num {
   font-weight: 600;
-  font-size: 0.7rem;
+  font-size: 1.1rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: #E84B8A;
@@ -52,21 +53,21 @@ body {
 }
 .note-title {
   font-weight: 600;
-  font-size: 0.8rem;
+  font-size: 1.2rem;
   color: rgba(255,255,255,0.5);
   letter-spacing: 0.02em;
 }
 .note-time {
   font-weight: 400;
-  font-size: 0.65rem;
+  font-size: 1rem;
   color: rgba(255,255,255,0.2);
   margin-left: auto;
   flex-shrink: 0;
 }
 
 .note-body {
-  font-size: 1.15rem;
-  line-height: 1.55;
+  font-size: 2.3rem;
+  line-height: 1.45;
   font-weight: 300;
   color: rgba(255,255,255,0.88);
   max-width: 100%;
@@ -87,7 +88,7 @@ body {
 
 .note-tip {
   margin-top: 14px;
-  font-size: 0.72rem;
+  font-size: 1.2rem;
   font-style: italic;
   color: rgba(255,255,255,0.22);
   line-height: 1.5;
@@ -116,14 +117,14 @@ body {
 
 /* Landscape iPhone optimization */
 @media (max-height: 500px) {
-  .note { padding: 18px 32px; }
-  .note-header { margin-bottom: 10px; }
-  .note-body { font-size: 1rem; line-height: 1.45; }
-  .note-tip { margin-top: 8px; font-size: 0.65rem; }
+  .note { padding: 16px 28px 36px; }
+  .note-header { margin-bottom: 8px; }
+  .note-body { font-size: 1.8rem; line-height: 1.4; }
+  .note-tip { margin-top: 8px; font-size: 1rem; }
 }
 @media (max-height: 380px) {
-  .note { padding: 14px 28px; }
-  .note-body { font-size: 0.88rem; line-height: 1.4; }
+  .note { padding: 12px 24px 32px; }
+  .note-body { font-size: 1.5rem; line-height: 1.35; }
 }
 </style>
 </head>
